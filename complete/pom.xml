@@ -5,6 +5,7 @@
   <groupId>org.springframework</groupId>  
   <artifactId>hanli-spring-boot-demo</artifactId>  
   <version>0.1.0</version>  
+  <packaging>jar</packaging>  
   <parent> 
     <groupId>org.springframework.boot</groupId>  
     <artifactId>spring-boot-starter-parent</artifactId>  
@@ -37,34 +38,35 @@
       <plugin> 
         <groupId>com.microsoft.azure</groupId>  
         <artifactId>azure-webapp-maven-plugin</artifactId>  
-        <version>1.5.4</version>  
+        <version>1.6.1-SNAPSHOT</version>  
         <configuration> 
           <schemaVersion>V2</schemaVersion>  
-          <resourceGroup>hanli-spring-boot-demo-1-rg</resourceGroup>  
-          <appName>hanli-spring-boot-demo-1</appName>  
+          <resourceGroup>hanli-spring-boot-demo-verify7-rg</resourceGroup>
+          <appName>hanli-spring-boot-demo-verify7</appName>
           <region>westeurope</region>  
           <pricingTier>P1V2</pricingTier>  
+          <runtime> 
+            <os>windows</os>
+            <javaVersion>1.8</javaVersion>
+            <webContainer>tomcat 8.5</webContainer>
+          </runtime>  
+          <appSettings> 
+            <!-- Set port for app service-->  
+            <property> 
+              <name>JAVA_OPTS</name>  
+              <value>-Dserver.port=23333 -Dtest=12345</value>
+            </property> 
+          </appSettings>  
           <deployment> 
             <resources> 
               <resource> 
                 <directory>${project.basedir}/target</directory>  
                 <includes> 
-                  <include>*.jar</include> 
-                </includes> 
-              </resource>  
-              <resource> 
-                <directory>${project.basedir}/src/main/resource</directory>  
-                <includes> 
-                  <include>startup.sh</include> 
+                  <include>${project.build.finalName}.jar</include> 
                 </includes> 
               </resource> 
             </resources> 
-          </deployment>  
-          <runtime>
-            <os>linux</os>
-            <javaVersion>jre8</javaVersion>
-            <webContainer>jre8</webContainer>
-          </runtime>
+          </deployment> 
         </configuration> 
       </plugin>  
       <plugin> 
